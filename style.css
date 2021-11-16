@@ -45,3 +45,49 @@ select{
   -webkit-appearance: none !important; 
   border-radius: 0;
 }
+
+#container{
+  width: 100%;
+  border: 1px solid red;
+  background-color: rgb(158, 157, 157);
+}
+
+#flex1{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+
+#flex1 div{
+  width: 300px;
+  height: 200px;
+  margin:30px;
+  border: 1px solid black;
+  background-color: cadetblue;
+}
+#flex2{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+
+#flex2 div{
+  width: 300px;
+  height: 200px;
+  margin:30px;
+  border: 1px solid black;
+  background-color: rgb(95, 160, 117);
+}
+#flex3{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+
+#flex3 div{
+  width: 300px;
+  height: 200px;
+  margin:30px;
+  border: 1px solid black;
+  background-color: rgb(153, 160, 95);
+}
