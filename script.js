@@ -1,127 +1,168 @@
-var myFirstString = 'ez "egy" string';
-var mySecondString = "ez is 'egy' string";
-var myThirdString = `
-ez
-"egy" 
-'több' 
-soros
-string
-`;
+// Az adott scope-ban minden változót feltesz a code elejére és mindegyiket deklarálja (hoisting) de a var undefined értéket kap, a többi nem kap értéket.
 
-var myFirstNumber = 0;
-var mySecondNumber = 35;
-var myThirdNumber = 6478999;
+console.log(myFirstGlobalVar);       
+var myFirstGlobalVar = 0;
+console.log(myFirstGlobalVar);
 
-var myFirstBoolean = true;
-var myFirstBoolean = false;
+//console.log(mySecondGlobalVar);   hibára megy
+let mySecondGlobalVar = 1;
+console.log(mySecondGlobalVar);
 
-var myFirstArray = ["1984", "Lord of the rings", "Mester és Margarita", "Galaktikus utikalauz stopposoknak", "Vita Brevis"];
-var mySecondArray = [1984, "Lord of the rings", "Mester és Margarita", "Galaktikus utikalauz stopposoknak", "Vita Brevis"];
+//console.log(myThirdGlobalVar);    hibára megy
+const myThirdGlobalVar = 2;
+console.log(myThirdGlobalVar);
 
-var myFirstObject = {
-    title: "Lord of the rings",
-    publicationDate: 1954,
-    translations: ["hu", "de", "fr", "jp"]
+(function (){
+    console.log(myFirstGlobalVar,mySecondGlobalVar,myThirdGlobalVar);
+}())
+console.log(myFirstGlobalVar,mySecondGlobalVar,myThirdGlobalVar);
+
+
+
+(function (){
+    console.log(myFirstGlobalVar,mySecondGlobalVar,myThirdGlobalVar);
+
+    var myFirstFunctionVar = 3;
+    let mySecondFunctionVar = 4;
+    const myThirdFunctionVar = 5;
+    console.log(myFirstFunctionVar,mySecondFunctionVar,myThirdFunctionVar);
+
+    (function (){
+        console.log(myFirstGlobalVar,mySecondGlobalVar,myThirdGlobalVar);
+        console.log(myFirstFunctionVar,mySecondFunctionVar,myThirdFunctionVar);
+
+        (function (){
+            console.log(myFirstGlobalVar,mySecondGlobalVar,myThirdGlobalVar);
+            console.log(myFirstFunctionVar,mySecondFunctionVar,myThirdFunctionVar); 
+        }())
+    }())
+}())
+//console.log(myFirstFunctionVar,mySecondFunctionVar,myThirdFunctionVar);
+
+function f1(){
+    console.log(a);         //undefined
+    var a = undefined;
+    console.log(a);         //undefined
+    a = 7;
+    console.log(a);         //7
+}
+f1();
+
+function f2(){
+    console.log(a);         //undefined
+    var a;
+    console.log(a);         //undefined
+    a = 8;
+    console.log(a);         //8
+}
+f2();
+
+function f3(){
+    //console.log(a);         // hibára fut
+    let a;                    // itt inicializálódik undefineddel
+    console.log(a);
+    a = 8;
+    console.log(a);
+}
+f3();
+
+function f4(){
+    //console.log(a);         // hibára fut
+    const a = 9;                  // hibára fut itt NEM inicializálódik undefineddel              
+    console.log(a);           // constnak a létrehozás pillanatában értéket is kell adni!!
+    //a = 8;                  Nem módosítható
+    console.log(a);
+}
+f4();
+
+function f5(){
+    let b;      
+    console.log(b);          // undefined
+    console.log(typeof b);   // undefined  egyben típus is
+}
+f5();
+
+function f6(){
+    d = 12;                   //12
+    console.log(d);           // undefined
+    if (true) {
+        (function (){
+           var d = 11;
+           console.log(d);
+       }())
+    }
+    console.log(d);           //11
+}
+f6();
+
+function f7(){
+    //console.log(e);           // undefined
+    if (true) {
+        let e = 13;               //csak itt látszik mert block scope-ja van
+        console.log(e);
+        /* (function (){
+           var d = 11;
+           console.log(d);
+       }()) */
+    }
+    //console.log(e);              // undefined
+}
+f7();
+
+function f8(){                                      // var al létrehozott i kiléphet a cikluson kívülre
+    const ls = ["a", "b", "c", "d", "e", true];
+
+
+    for (i = 0; i < ls.length; i++) {
+        console.log(ls[i]);   
+    }
+
+    for (const item of ls) {
+        console.log(item);
+    }
+
+    for (const key in ls) {
+        console.log(key);        //indexet írja ki
+        const item = ls[key];
+        console.log(item);       //értéket írja ki
+
+    }
+    console.log(f9(ls));
+}
+f8();
+
+
+function f9(arrayFromParam){
+    console.log(arrayFromParam);
+
+    let abc = "";
+
+    for (const item of arrayFromParam) {
+        if (item !== true) {
+            abc += item; 
+        }
+    }
+    return abc
+}
+
+
+
+const f10 = (text)=>{
+    return `<div>${text}</div>`
 };
 
-console.log(myFirstArray[0]);
-console.log(myFirstObject.title);
-console.log(myFirstObject["title"]);
 
-var a = 1;
-var b = 2;
-var c = a+b;
-console.log(c);
-
-function add(firstNumber, secondNumber){
-    console.log(firstNumber + secondNumber);
-} 
-
-add(1,2);
-add(17948, 18773);
-
-var subtraction = function (a,b){
-    if (a > b) {
-        console.log(a - b);
-    } else if (a === b) {
-        console.log(a - b);
-        console.log("A végeredmény nulla lesz.");
-    } else {
-        console.log(b - a);
-    }
-}
-
-subtraction(3,6);
-subtraction("15", 15);
-add("15",15);
-add("Nyitva","tartás");
-subtraction("Nyitva","tartás");
-
-function ifElseCheck(text){
-    if (text === "hello") {
-        console.log("text az volt, hogy hello");
-    } else if (text === "hello"){
-        console.log("text megint az volt, hogy hello");
-    } 
-
-    if (text === "hello") {
-        console.log("A text már megint hello");
-    }
-}
-ifElseCheck("hello");
-
-function compare(a,b){
-    console.log("== ", a==b);
-    console.log("=== ", a===b);
-    var c = a+b;
-    console.log(typeof c);
-    console.log(c);
-}
-
-compare("1984", 1984);
-compare("15", "15");
+const f11 = (text)=> `<div>${text}</div>`;   // ha egysoros nem kell {} és return sem
 
 
-var myFirstFunctionVariable = function(){
-    console.log("Ez egy függvény amit változóban tároltunk el");
-}
-myFirstFunctionVariable ();
+const f12 = text => `<div>${text}</div>`;   // ha egy paraméter van nem kell (){} és return sem
 
-(function(){
-    console.log("Azonnal lefutó függvény");
-}());
+console.log(f12("wellcome"));
 
-var anotherVar = myFirstFunctionVariable();
-console.log(typeof anotherVar); //undefined
-
-var anotherVar2 = myFirstFunctionVariable;
-
-anotherVar2();
-
-console.log(typeof anotherVar2);// function
-
-// függvényt argumentumként is meg tudunk adni
-
-function theLastFunction(obj1, obj2){
-    console.log("obj1 típusa", typeof obj1);
-    console.log("obj1 értéke", obj1);   // csak kiírja a functiont
-
-    console.log("obj1 típusa", typeof obj2);
-    console.log("obj1 értéke", obj2);   // csak kiírja a functiont
-    console.log(obj2()); // le is futtatta a functiont
-}
-
-theLastFunction("hello", function (){
-    return "i'm calling the last function";
-});
-
-/*
-var window = {
-    addEventListener: function (eventName, eventFunction){
-        ...
-    }
-}
-*/
 window.addEventListener("load", function(){
-    console.log("Az oldal betöltődött!");
-});
+    const f9result = f9(["hello", "bye"]);
+    document.getElementById("root").insertAdjacentHTML("afterbegin", f9result);
+    document.getElementById("root").insertAdjacentHTML("afterbegin", f10("good night"));
+    document.getElementById("root").insertAdjacentHTML("afterbegin", f11("good night"));
+    document.getElementById("root").insertAdjacentHTML("afterbegin", f12("good night"));
+})
